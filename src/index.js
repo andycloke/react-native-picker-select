@@ -114,8 +114,11 @@ export default class RNPickerSelect extends PureComponent {
         if (this.props.disabled) {
             return;
         }
-        if (this.props.onTogglePicker) {
-            this.props.onTogglePicker(!this.state.showPicker);
+        else if (!this.state.showPicker && this.props.onOpenPicker) {
+            this.props.onOpenPicker();
+        }
+        else if (this.state.showPicker && this.props.onClosePicker) {
+            this.props.onClosePicker();
         }
         this.setState({
             animationType: animate ? this.props.animationType : undefined,
