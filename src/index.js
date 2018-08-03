@@ -285,19 +285,27 @@ export default class RNPickerSelect extends PureComponent {
 
     renderAndroidHeadless() {
         return (
-            <View style={[{ borderWidth: 0 }, this.props.style.headlessAndroidContainer]}>
-                {this.props.children}
-                <Picker
-                    style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
-                    onValueChange={this.onValueChange}
-                    selectedValue={this.state.selectedItem.value}
-                    testID="RNPickerSelectAndroid"
-                    mode={this.props.mode}
-                    enabled={!this.props.disabled}
+            <TouchableWithoutFeedback
+                onPress={() => {
+                    if(this.props.onOpenPicker) {
+                        this.props.onOpenPicker();
+                    } 
+                }}
                 >
-                    {this.renderPickerItems()}
-                </Picker>
-            </View>
+                <View style={[{ borderWidth: 0 }, this.props.style.headlessAndroidContainer]}>
+                    {this.props.children}
+                    <Picker
+                        style={{ position: 'absolute', top: 0, width: 1000, height: 1000 }}
+                        onValueChange={this.onValueChange}
+                        selectedValue={this.state.selectedItem.value}
+                        testID="RNPickerSelectAndroid"
+                        mode={this.props.mode}
+                        enabled={!this.props.disabled}
+                    >
+                        {this.renderPickerItems()}
+                    </Picker>
+                </View>
+            </TouchableWithoutFeedback>
         );
     }
 
