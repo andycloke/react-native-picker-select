@@ -177,6 +177,14 @@ describe('RNPickerSelect', () => {
         expect(wrapper.state().items).toEqual(selectItems);
     });
 
+    it('should should suppress the icon when the hideIcon flag is used', () => {
+        const wrapper = shallow(
+            <RNPickerSelect items={selectItems} onValueChange={() => {}} hideIcon />
+        );
+
+        expect(wrapper.find('[testID="icon_ios"]')).toHaveLength(0);
+    });
+
     it("should reset to the first item (typically the placeholder) if a value is passed in that doesn't exist in the `items` array", () => {
         const wrapper = shallow(
             <RNPickerSelect
@@ -211,5 +219,26 @@ describe('RNPickerSelect', () => {
             .props()
             .onValueChange('orange', 2);
         expect(wrapper.state().selectedItem.value).toEqual('orange');
+    });
+
+    it('should call the onDonePress callback when set (iOS)', () => {
+        Platform.OS = 'ios';
+        const onDonePressSpy = jest.fn();
+        const wrapper = shallow(
+            <RNPickerSelect
+                items={selectItems}
+                placeholder={placeholder}
+                onValueChange={() => {}}
+                onDonePress={onDonePressSpy}
+            />
+        );
+
+        wrapper
+            .find('[testID="RNPickerSelectIOS"]')
+            .props()
+            .onValueChange('orange', 2);
+        const touchable = wrapper.find('[testID="done_button"]');
+        touchable.simulate('press');
+        expect(onDonePressSpy).toHaveBeenCalledWith();
     });
 });
