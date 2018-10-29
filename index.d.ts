@@ -11,6 +11,8 @@ declare module 'react-native-picker-select' {
     export interface PickerProps {
         onValueChange: (value: any, index: number) => void;
         items: Item[];
+        onOpenPicker?: (open: boolean) => void;
+        onClosePicker?: (open: boolean) => void;
         placeholder?: Item | {};
         disabled?: boolean;
         value?: any;
